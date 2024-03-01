@@ -4,12 +4,12 @@ from helper_functions import load_data_from_github, filter_data, plot_data_subpl
 								spectral_lines, extract_lines_and_wavelengths, plot_data_subplots_split #load_data
 
 with st.sidebar:
-	sel_options = st.radio("Select Options", ['Sample Spectra', 'References'])
+	sel_options = st.radio("Select Options", ['Galaxy Spectra', 'References'])
 
 
 
-if sel_options == "Sample Spectra":
-	st.header("Sample Spectra")
+if sel_options == "Galaxy Spectra":
+	st.header("Galaxy Spectra")
 
 
 	# local
@@ -22,9 +22,9 @@ if sel_options == "Sample Spectra":
 	#st.write(data_dict)
 
 	with st.sidebar:
-		variability = st.radio("Sample", ("All", "Variable", "Non Variable"))
+		variability = st.radio("Sample", ("Full Sample", "Variable", "Non Variable"))
 		
-	if variability == "All":
+	if variability == "Full sample":
 		st.write("[Clark et al. (2024)](https://academic.oup.com/mnras/article/528/4/7076/7609067?login=false) presents 'new spectroscopic and photometric \
 			follow-up observations of the known sample of extreme coronal line-emitting galaxies (ECLEs) identified in the Sloan Digital Sky Survey (SDSS).'")
 
@@ -58,7 +58,7 @@ if sel_options == "Sample Spectra":
 
 
 	with st.sidebar:
-		show_lines = st.radio("Show lines", ('No lines', 'All lines', 'Selected lines'))
+		show_lines = st.radio("Show spectral lines", ('No lines', 'All lines', 'Selected lines'))
 
 		if show_lines == "All lines":
 			lines_with_wavelengths = spectral_lines()
@@ -83,7 +83,7 @@ if sel_options == "Sample Spectra":
 		if individual_galaxies:
 			display = "Single"
 		else:
-			display = st.radio("Display", ('Single', 'Subplots'))
+			display = st.radio("Display Graphs", ('Single', 'Subplots'))
 
 	if display == 'Single':
 		#if variability == "Variable":

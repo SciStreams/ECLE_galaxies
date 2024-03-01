@@ -83,7 +83,7 @@ def load_data_from_github(repository_url="https://github.com/SciStreams/ECLE_gal
 
 
 def filter_data(data_dict, variability):
-    if variability == "All":
+    if variability == "Full Sample":
         filtered_data_dict = data_dict
         return filtered_data_dict
     
