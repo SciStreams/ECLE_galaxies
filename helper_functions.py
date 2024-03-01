@@ -118,7 +118,7 @@ def plot_data_subplots(data_dict, scale, galaxy=None, lines=None, wavelengths=No
     fig = go.Figure()
 
     # Initialize max_y_axis_limit
-    max_y_axis_limit = 3
+    max_y_axis_limit = 0
 
     for key, df in data_dict.items():
         # Create a trace for each key
