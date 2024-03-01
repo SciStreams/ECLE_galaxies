@@ -1,7 +1,7 @@
 import streamlit as st
 
-from helper_functions import load_data, filter_data, plot_data_subplots, get_galaxy_names, \
-								spectral_lines, extract_lines_and_wavelengths, plot_data_subplots_split
+from helper_functions import load_data_from_github, filter_data, plot_data_subplots, get_galaxy_names, \
+								spectral_lines, extract_lines_and_wavelengths, plot_data_subplots_split #load_data
 
 with st.sidebar:
 	sel_options = st.radio("Select Options", ['Sample Spectra', 'References'])
