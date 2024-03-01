@@ -24,7 +24,7 @@ if sel_options == "Galaxy Spectra":
 	with st.sidebar:
 		variability = st.radio("Galaxy Sample", ("Full Sample", "Variable", "Non Variable"))
 		
-	if variability == "Full sample":
+	if variability == "Full Sample":
 		st.write("[Clark et al. (2024)](https://academic.oup.com/mnras/article/528/4/7076/7609067?login=false) presents 'new spectroscopic and photometric \
 			follow-up observations of the known sample of extreme coronal line-emitting galaxies (ECLEs) identified in the Sloan Digital Sky Survey (SDSS).'")
 
