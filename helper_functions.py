@@ -6,20 +6,44 @@ from plotly.subplots import make_subplots
 import pandas as pd
 import os
 
-@st.cache_data
-def load_data(directory):
-    data_dict = {}
-    for filename in os.listdir(directory):
-        if filename.endswith(".csv"):
-            # Extract the key from the filename
-            key = filename.split('_Processed')[0]
-            # Load the CSV file
-            file_path = os.path.join(directory, filename)
-            df = pd.read_csv(file_path)
-            # Store the DataFrame in the dictionary with the key
-            data_dict[key] = df
-    return data_dict
+# Local reading files
+# @st.cache_data
+# def load_data(directory):
+#     data_dict = {}
+#     for filename in os.listdir(directory):
+#         if filename.endswith(".csv"):
+#             # Extract the key from the filename
+#             key = filename.split('_Processed')[0]
+#             # Load the CSV file
+#             file_path = os.path.join(directory, filename)
+#             df = pd.read_csv(file_path)
+#             # Store the DataFrame in the dictionary with the key
+#             data_dict[key] = df
+#     return data_dict
 
+# Online reading file
+@st.cache_data
+def load_data_from_github(repository_url, directory):
+    data_dict = {}
+    base_url = f"{repository_url.rstrip('/')}/raw/main/{directory.lstrip('/')}"
+    response = requests.get(base_url)
+    if response.status_code == 200:
+        file_list = response.text.splitlines()
+        for filename in file_list:
+            if filename.endswith(".csv"):
+                # Extract the key from the filename
+                key = filename.split('_Processed')[0]
+                # Fetch the raw content of the CSV file
+                file_url = f"{base_url}/{filename}"
+                csv_content = requests.get(file_url).text
+                # Load the CSV content into a DataFrame
+                df = pd.read_csv(pd.compat.StringIO(csv_content))
+                # Store the DataFrame in the dictionary with the key
+                data_dict[key] = df
+    else:
+        print("Failed to fetch files from the repository.")
+    return data_dict
+    
 
 def filter_data(data_dict, variability):
     if variability == "All":
