@@ -22,7 +22,7 @@ if sel_options == "Galaxy Spectra":
 	#st.write(data_dict)
 
 	with st.sidebar:
-		variability = st.radio("Sample", ("Full Sample", "Variable", "Non Variable"))
+		variability = st.radio("Galaxy Sample", ("Full Sample", "Variable", "Non Variable"))
 		
 	if variability == "Full sample":
 		st.write("[Clark et al. (2024)](https://academic.oup.com/mnras/article/528/4/7076/7609067?login=false) presents 'new spectroscopic and photometric \
