@@ -29,22 +29,26 @@ import requests
 def load_data_from_github(repository_url, directory):
     data_dict = {}
     base_url = f"{repository_url.rstrip('/')}/raw/main/{directory.lstrip('/')}"
+    st.write("Base URL:", base_url)  # Debugging
     response = requests.get(base_url)
     if response.status_code == 200:
         file_list = response.text.splitlines()
         for filename in file_list:
             if filename.endswith(".csv"):
+                st.write("Processing file:", filename)  # Debugging
                 # Extract the key from the filename
                 key = filename.split('_Processed')[0]
+                st.write("Key:", key)  # Debugging
                 # Fetch the raw content of the CSV file
                 file_url = f"{base_url}/{filename}"
+                st.write("File URL:", file_url)  # Debugging
                 csv_content = requests.get(file_url).text
                 # Load the CSV content into a DataFrame
                 df = pd.read_csv(pd.compat.StringIO(csv_content))
                 # Store the DataFrame in the dictionary with the key
                 data_dict[key] = df
     else:
-        print("Failed to fetch files from the repository.")
+        st.write("Failed to fetch files from the repository.")
     return data_dict
 
 
