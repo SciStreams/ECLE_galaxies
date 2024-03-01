@@ -6,6 +6,9 @@ from plotly.subplots import make_subplots
 import pandas as pd
 import os
 
+#need for online
+import requests
+
 # Local reading files
 # @st.cache_data
 # def load_data(directory):
@@ -43,7 +46,7 @@ def load_data_from_github(repository_url, directory):
     else:
         print("Failed to fetch files from the repository.")
     return data_dict
-    
+
 
 def filter_data(data_dict, variability):
     if variability == "All":
