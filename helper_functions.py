@@ -116,6 +116,10 @@ def get_line_color(line_name):
 
 def plot_data_subplots(data_dict, scale, galaxy=None, lines=None, wavelengths=None):
     fig = go.Figure()
+
+    # Initialize max_y_axis_limit
+    max_y_axis_limit = 3
+
     for key, df in data_dict.items():
         # Create a trace for each key
         #st.dataframe(df)
