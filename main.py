@@ -20,7 +20,6 @@ if sel_options == "Sample Spectra":
 	repository_url = "https://github.com/SciStreams/ECLE_galaxies_streamlit"
 	directory = "data/Figure_1"
 	
-	data_dict_all = load_data(directory)
 	data_dict = load_data_from_github(repository_url, directory)
 
 	#st.write(data_dict)
