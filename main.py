@@ -141,10 +141,10 @@ if sel_options == "References":
 	st.write("")
 
 	st.write(""" 
-		This Streamlit application is made by SciStreams, code of the app can be found on [**GitHub**](https://github.com/SciStreams).
+		This Streamlit application is made by SciStreams, code of the app can be found on [**GitHub**](https://github.com/SciStreams/ECLE_galaxies_streamlit).
 		""")
 	st.write("")
-	st.write("If you find ECLEs useful in your research or image handlings, please cite original paper:")
+	st.write("If you find ECLEs useful in your research, please cite original paper:")
 	st.code(""" 
 
 @ARTICLE{2024MNRAS.tmp..536C,
