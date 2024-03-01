@@ -8,6 +8,7 @@ import os
 
 #need for online
 import requests
+import io
 
 # Local reading files
 # @st.cache_data
@@ -26,29 +27,58 @@ import requests
 
 # Online reading file
 @st.cache_data
-def load_data_from_github(repository_url, directory):
+def load_data_from_github(repository_url="https://github.com/SciStreams/ECLE_galaxies_streamlit", directory="data/Figure_1"):
     data_dict = {}
-    base_url = f"{repository_url.rstrip('/')}/raw/main/{directory.lstrip('/')}"
-    st.write("Base URL:", base_url)  # Debugging
-    response = requests.get(base_url)
-    if response.status_code == 200:
-        file_list = response.text.splitlines()
-        for filename in file_list:
-            if filename.endswith(".csv"):
-                st.write("Processing file:", filename)  # Debugging
-                # Extract the key from the filename
-                key = filename.split('_Processed')[0]
-                st.write("Key:", key)  # Debugging
-                # Fetch the raw content of the CSV file
-                file_url = f"{base_url}/{filename}"
-                st.write("File URL:", file_url)  # Debugging
-                csv_content = requests.get(file_url).text
-                # Load the CSV content into a DataFrame
-                df = pd.read_csv(pd.compat.StringIO(csv_content))
-                # Store the DataFrame in the dictionary with the key
-                data_dict[key] = df
-    else:
-        st.write("Failed to fetch files from the repository.")
+    base_url = f"{repository_url.rstrip('/')}/blob/main/{directory.lstrip('/')}"
+    
+    # List of filenames
+    filenames = [
+        "SDSS_J0748_MMT_2011_Processed_Spectrum.csv",
+        "SDSS_J0748_MMT_2019_Processed_Spectrum.csv",
+        "SDSS_J0748_SDSS_2004_Processed_Spectrum.csv",
+        "SDSS_J0938_DESI_2022_Processed_Spectrum.csv",
+        "SDSS_J0938_MMT_2011_Processed_Spectrum.csv",
+        "SDSS_J0938_NTT_2021_Processed_Spectrum.csv",
+        "SDSS_J0938_SDSS_2006_Processed_Spectrum.csv",
+        "SDSS_J0952_DESI_2021_Processed_Spectrum.csv",
+        "SDSS_J0952_MMT_2011_Processed_Spectrum.csv",
+        "SDSS_J0952_NTT_2021_Processed_Spectrum.csv",
+        "SDSS_J0952_SDSS_2005_Processed_Spectrum.csv",
+        "SDSS_J1055_Kast_2021_Processed_Spectrum.csv",
+        "SDSS_J1055_MMT_2011_Processed_Spectrum.csv",
+        "SDSS_J1055_SDSS_2002_Processed_Spectrum.csv",
+        "SDSS_J1241_Kast_2021_Processed_Spectrum.csv",
+        "SDSS_J1241_MMT_2011_Processed_Spectrum.csv",
+        "SDSS_J1241_SDSS_2004_Processed_Spectrum.csv",
+        "SDSS_J1342_DESI_2021_Processed_Spectrum.csv",
+        "SDSS_J1342_MMT_2011_Processed_Spectrum.csv",
+        "SDSS_J1342_NTT_2021_Processed_Spectrum.csv",
+        "SDSS_J1342_SDSS_2002_Processed_Spectrum.csv",
+        "SDSS_J1350_MMT_2011_Processed_Spectrum.csv",
+        "SDSS_J1350_NTT_2021_Processed_Spectrum.csv",
+        "SDSS_J1350_SDSS_2006_Processed_Spectrum.csv"
+    ]
+    
+    for filename in filenames:
+        file_url = f"{base_url}/{filename}"
+        #st.write("File URL:", file_url)  # Output file URL using st.write()
+        
+        key = filename.split('_Processed')[0]
+        #st.write("Key:", key)  # Output key using st.write()
+        
+        response = requests.get(file_url.replace("blob/", "raw/"))
+        
+        # Check if the file exists
+        if response.status_code == 200:
+            csv_content = response.content
+            
+            df = pd.read_csv(io.StringIO(csv_content.decode('utf-8')))
+            
+            # Store the DataFrame in the dictionary with the key
+            data_dict[key] = df
+        else:
+            st.write(f"Failed to fetch file: {filename}")
+    
     return data_dict
 
 
@@ -122,7 +152,7 @@ def plot_data_subplots(data_dict, scale, galaxy=None, lines=None, wavelengths=No
     fig = go.Figure()
 
     # Initialize max_y_axis_limit
-    max_y_axis_limit = 0
+    #max_y_axis_limit = 0
 
     for key, df in data_dict.items():
         # Create a trace for each key
