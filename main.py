@@ -21,7 +21,7 @@ if sel_options == "Sample Spectra":
 	directory = "data/Figure_1"
 	
 	data_dict_all = load_data_from_github(repository_url, directory)
-
+	st.write(data_dict_all)
 	#st.write(data_dict)
 
 	with st.sidebar:
